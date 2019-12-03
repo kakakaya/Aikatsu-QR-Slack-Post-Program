@@ -73,7 +73,7 @@ while True:
                     break
             else:
                 print("リトライしてください")
-                contunue
+                continue
         try:
             request.urlretrieve(URL, "python.jpg")
         except ValueError:
@@ -86,7 +86,7 @@ while True:
                     break
             else:
                 print("リトライしてください")
-                contunue
+                continue
         rico = "python.jpg"
         print("画像ダウンロード終了...")
     
@@ -102,7 +102,7 @@ while True:
             break
         else:
             print("リトライしてください")
-            contunue
+            continue
                     
     rico = data[0][0].decode('utf-8', 'ignore')
 
