@@ -1,10 +1,14 @@
 # -*- coding: UTF-8 -*-
 from pyzbar.pyzbar import decode
 from PIL import Image
+import os
 import slack
 import requests
 import json
+import pprint
 import time
+import urllib
+import sys
 from urllib import request
 import access
 
@@ -44,9 +48,10 @@ while True:
                     print("これ画像じゃないですよね...")
                     print("再実行しますか？[Y/N]")
                     arisa = input()
-                    if 'Y' in arisa or 'Yes' in arisa or 'yes' in arisa or 'y' in arisa or 'YES' in arisa:
+                    arisa = arisa.lower()
+                    if 'y' in arisa or 'yes' in arisa:
                         continue
-                    elif 'N' in arisa or 'No' in arisa or 'no' in arisa or 'n' in arisa or 'NO' in arisa:
+                    elif 'n' in arisa or 'no' in arisa:
                         break
                     else:
                         print("リトライしてください")
@@ -63,10 +68,11 @@ while True:
             print("不正なURLでは？？？")
             print("再実行しますか？[Y/N]")
             arisa = input()
-            if 'Y' in arisa or 'Yes' in arisa or 'yes' in arisa or 'y' in arisa or 'YES' in arisa:
-                    continue
-            elif 'N' in arisa or 'No' in arisa or 'no' in arisa or 'n' in arisa or 'NO' in arisa:
-                    break
+            arisa = arisa.lower()
+            if 'y' in arisa or 'yes' in arisa:
+                continue
+            elif 'n' in arisa or 'no' in arisa:
+                break
             else:
                 print("リトライしてください")
                 continue
@@ -76,10 +82,11 @@ while True:
             print("不正なURLでは？？？")
             print("再実行しますか？[Y/N]")
             arisa = input()
-            if 'Y' in arisa or 'Yes' in arisa or 'yes' in arisa or 'y' in arisa or 'YES' in arisa:
-                    continue
-            elif 'N' in arisa or 'No' in arisa or 'no' in arisa or 'n' in arisa or 'NO' in arisa:
-                    break
+            arisa = arisa.lower()
+            if 'y' in arisa or 'yes' in arisa:
+                continue
+            elif 'n' in arisa or 'no' in arisa:
+                break
             else:
                 print("リトライしてください")
                 continue
@@ -92,9 +99,10 @@ while True:
         print("本当にそこにありますか？？？")
         print("再実行しますか？[Y/N]")
         arisa = input()
-        if 'Y' in arisa or 'Yes' in arisa or 'yes' in arisa or 'y' in arisa or 'YES' in arisa:
+        arisa = arisa.lower()
+        if 'y' in arisa or 'yes' in arisa:
             continue
-        elif 'N' in arisa or 'No' in arisa or 'no' in arisa or 'n' in arisa or 'NO' in arisa:
+        elif 'n' in arisa or 'no' in arisa:
             break
         else:
             print("リトライしてください")
