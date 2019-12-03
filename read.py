@@ -8,7 +8,6 @@ import json
 import pprint
 import time
 import urllib
-import sys
 from urllib import request
 import access
 
