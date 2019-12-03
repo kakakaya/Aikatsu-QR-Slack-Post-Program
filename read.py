@@ -5,7 +5,6 @@ import slack
 import requests
 import json
 import time
-import sys
 from urllib import request
 import access
 
