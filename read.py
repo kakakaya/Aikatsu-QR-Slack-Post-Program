@@ -12,8 +12,6 @@ import sys
 from urllib import request
 import access
 
-rico = 'none'
-
 SLACK_BOT_TOKEN = access.SLACK_BOT_TOKEN
 
 att = access.access_token
