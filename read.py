@@ -96,7 +96,6 @@ while True:
     except FileNotFoundError:
         print("本当にそこにありますか？？？")
         print("再実行しますか？[Y/N]")
-<<<<<<< HEAD
         retry = input()
         if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
                     continue
