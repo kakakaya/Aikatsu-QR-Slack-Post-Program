@@ -1,28 +1,25 @@
 # -*- coding: UTF-8 -*-
 from pyzbar.pyzbar import decode
 from PIL import Image
-import os
 import slack
 import requests
 import json
-import pprint
 import time
-import urllib
 import sys
 from urllib import request
 import access
 
-rico = 'none'
+path = 'none'
 
 SLACK_BOT_TOKEN = access.SLACK_BOT_TOKEN
 
-att = access.access_token
+aat = access.access_token
 
 client = slack.WebClient(token=SLACK_BOT_TOKEN)
 
 def get_shortenURL(longUrl):
     url = 'https://api-ssl.bitly.com/v3/shorten'
-    access_token = att
+    access_token = aat
     query = {
             'access_token': access_token,
             'longurl':longUrl
@@ -32,25 +29,25 @@ def get_shortenURL(longUrl):
 
 def post():
     response = client.chat_postMessage(
-    channel='#学習用チャンネル',text=(aikatsu)
+    channel=Slackch,text=(aikatsu)
     )
 
 while True:
     print("アイカツQRコードSlack送信システム")
     print('該当の画像を入れてください')
 
-    rico = input()
+    path = input()
 
-    if ".com" not in rico:
-        if ".jp" not in rico:
-            if ".jpg" not in rico:
-                if ".jpeg" not in rico:
+    if ".com" not in path:
+        if ".jp" not in path:
+            if ".jpg" not in path:
+                if ".jpeg" not in path:
                     print("これ画像じゃないですよね...")
                     print("再実行しますか？[Y/N]")
-                    arisa = input()
-                    if 'Y' in arisa or 'Yes' in arisa or 'yes' in arisa or 'y' in arisa or 'YES' in arisa:
+                    retry = input()
+                    if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
                         continue
-                    elif 'N' in arisa or 'No' in arisa or 'no' in arisa or 'n' in arisa or 'NO' in arisa:
+                    elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
                         break
                     else:
                         print("リトライしてください")
@@ -59,17 +56,17 @@ while True:
     else:
         pass
 
-    if "com" in rico or "jp" in rico and "jpg" not in rico and "jpeg" not in rico:
+    if "com" in path or "jp" in path and "jpg" not in path and "jpeg" not in path:
         print("画像ダウンロード開始...")
         try:
-            URL = rico
+            URL = path
         except ValueError:
             print("不正なURLでは？？？")
             print("再実行しますか？[Y/N]")
-            arisa = input()
-            if 'Y' in arisa or 'Yes' in arisa or 'yes' in arisa or 'y' in arisa or 'YES' in arisa:
+            retry = input()
+            if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
                     continue
-            elif 'N' in arisa or 'No' in arisa or 'no' in arisa or 'n' in arisa or 'NO' in arisa:
+            elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
                     break
             else:
                 print("リトライしてください")
@@ -79,41 +76,41 @@ while True:
         except ValueError:
             print("不正なURLでは？？？")
             print("再実行しますか？[Y/N]")
-            arisa = input()
-            if 'Y' in arisa or 'Yes' in arisa or 'yes' in arisa or 'y' in arisa or 'YES' in arisa:
+            retry = input()
+            if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
                     continue
-            elif 'N' in arisa or 'No' in arisa or 'no' in arisa or 'n' in arisa or 'NO' in arisa:
+            elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
                     break
             else:
                 print("リトライしてください")
                 contunue
-        rico = "python.jpg"
+        path = "python.jpg"
         print("画像ダウンロード終了...")
     
     try:
-        data = decode(Image.open(rico))
+        data = decode(Image.open(path))
     except FileNotFoundError:
         print("本当にそこにありますか？？？")
         print("再実行しますか？[Y/N]")
-        arisa = input()
-        if 'Y' in arisa or 'Yes' in arisa or 'yes' in arisa or 'y' in arisa or 'YES' in arisa:
-            continue
-        elif 'N' in arisa or 'No' in arisa or 'no' in arisa or 'n' in arisa or 'NO' in arisa:
-            break
+        retry = input()
+        if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
+                    continue
+        elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
+                    break
         else:
             print("リトライしてください")
             contunue
                     
-    rico = data[0][0].decode('utf-8', 'ignore')
+    path = data[0][0].decode('utf-8', 'ignore')
 
-    print(rico)
+    print(path)
 
-    rico = get_shortenURL(rico)
+    path = get_shortenURL(path)
 
-    print(rico)
+    print(path)
 
     with open('read.json', 'w') as d:
-        json.dump(rico, d, ensure_ascii=False)
+        json.dump(path, d, ensure_ascii=False)
 
     with open('read.json', 'r') as f:
         jsn = json.load(f)
@@ -121,4 +118,4 @@ while True:
 
     post()
     
-    rico = "none"
+    path= "none"
