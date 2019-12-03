@@ -1,14 +1,16 @@
 # -*- coding: UTF-8 -*-
 from pyzbar.pyzbar import decode
 from PIL import Image
+import os
 import slack
 import requests
 import json
+import pprint
 import time
+import urllib
+import sys
 from urllib import request
 import access
-
-path = 'none'
 
 SLACK_BOT_TOKEN = access.SLACK_BOT_TOKEN
 
@@ -62,6 +64,7 @@ while True:
         except ValueError:
             print("不正なURLでは？？？")
             print("再実行しますか？[Y/N]")
+
             retry = input()
             if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
                     continue
@@ -75,6 +78,7 @@ while True:
         except ValueError:
             print("不正なURLでは？？？")
             print("再実行しますか？[Y/N]")
+
             retry = input()
             if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
                     continue
@@ -92,6 +96,7 @@ while True:
     except FileNotFoundError:
         print("本当にそこにありますか？？？")
         print("再実行しますか？[Y/N]")
+<<<<<<< HEAD
         retry = input()
         if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
                     continue
@@ -108,14 +113,9 @@ while True:
     path = get_shortenURL(path)
 
     print(path)
-
-    with open('read.json', 'w') as d:
-        json.dump(path, d, ensure_ascii=False)
-
-    with open('read.json', 'r') as f:
-        jsn = json.load(f)
-        aikatsu = (jsn['data']['url'])
-
+    
+    aikatsu = rico['data']['url']
+    
     post()
     
     path= "none"
