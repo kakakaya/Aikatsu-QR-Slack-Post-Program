@@ -107,13 +107,8 @@ while True:
     rico = get_shortenURL(rico)
 
     print(rico)
-
-    with open('read.json', 'w') as d:
-        json.dump(rico, d, ensure_ascii=False)
-
-    with open('read.json', 'r') as f:
-        jsn = json.load(f)
-        aikatsu = (jsn['data']['url'])
+    
+    aikatsu = rico['data']['url']
 
     post()
     
