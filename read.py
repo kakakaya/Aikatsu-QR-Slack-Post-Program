@@ -1,13 +1,10 @@
 # -*- coding: UTF-8 -*-
 from pyzbar.pyzbar import decode
 from PIL import Image
-import os
 import slack
 import requests
 import json
-import pprint
 import time
-import urllib
 from urllib import request
 import access
 
