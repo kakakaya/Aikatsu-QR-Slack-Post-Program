@@ -5,7 +5,6 @@ import slack
 import requests
 import json
 import time
-import sys
 from urllib import request
 import access
 
@@ -70,7 +69,7 @@ while True:
                     break
             else:
                 print("リトライしてください")
-                contunue
+                continue
         try:
             request.urlretrieve(URL, "python.jpg")
         except ValueError:
@@ -85,6 +84,7 @@ while True:
                 print("リトライしてください")
                 contunue
         path = "python.jpg"
+                continue
         print("画像ダウンロード終了...")
     
     try:
@@ -99,7 +99,7 @@ while True:
                     break
         else:
             print("リトライしてください")
-            contunue
+            continue
                     
     path = data[0][0].decode('utf-8', 'ignore')
 
