@@ -3,3 +3,4 @@ SLACK_BOT_TOKEN = 'xoxp-ricotan_aikatsu'
 access_token = 'XXXXXXX'
 #bitlyのトークン
 Slackch = '#'
+#投稿するチャンネル

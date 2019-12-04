@@ -30,7 +30,7 @@ def get_shortenURL(longUrl):
 
 def post():
     response = client.chat_postMessage(
-    channel=Slackch,text=(aikatsu)
+    channel=Slackch,text=(card)
     )
 
 while True:
@@ -113,7 +113,7 @@ while True:
 
     print(path)
     
-    aikatsu = rico['data']['url']
+    card = path['data']['url']
     
     post()
     
