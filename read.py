@@ -88,7 +88,6 @@ while True:
                 print("リトライしてください")
                 contunue
         path = "python.jpg"
-                continue
         print("画像ダウンロード終了...")
     
     try:
