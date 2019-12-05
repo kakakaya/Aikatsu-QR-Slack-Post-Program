@@ -10,20 +10,16 @@ import time
 import urllib
 import sys
 from urllib import request
-import access
+import key
 import cv2
 import pyzbar.pyzbar as pyzbar
 import PIL.Image
 
-Slackch = '#学習用チャンネル'
-access_token = 'fdddab7ac8f568671147dbeb67e3847c5ac2f72c'
-SLACK_BOT_TOKEN = 'xoxp-508287033857-508889631426-859445534006-a47b48ad58a580b84f9511258c6a0480'
+SLACK_BOT_TOKEN = key.SLACK_BOT_TOKEN
 
+aat = key.access_token
 
-SLACK_BOT_TOKEN = access.SLACK_BOT_TOKEN
-
-aat = access.access_token
-
+slackch = key.slackch
 
 client = slack.WebClient(token=SLACK_BOT_TOKEN)
 
@@ -55,7 +51,7 @@ def get_shortenURL(longUrl):
 
 def post():
     response = client.chat_postMessage(
-    channel=Slackch,text=card
+    channel=slackch,text=card
     )
     
 
