@@ -15,9 +15,15 @@ import cv2
 import pyzbar.pyzbar as pyzbar
 import PIL.Image
 
+Slackch = '#学習用チャンネル'
+access_token = 'fdddab7ac8f568671147dbeb67e3847c5ac2f72c'
+SLACK_BOT_TOKEN = 'xoxp-508287033857-508889631426-859445534006-a47b48ad58a580b84f9511258c6a0480'
+
+
 SLACK_BOT_TOKEN = access.SLACK_BOT_TOKEN
 
 aat = access.access_token
+
 
 client = slack.WebClient(token=SLACK_BOT_TOKEN)
 
@@ -49,7 +55,7 @@ def get_shortenURL(longUrl):
 
 def post():
     response = client.chat_postMessage(
-    channel=Slackch,text=(card)
+    channel=Slackch,text=card
     )
     
 
@@ -78,6 +84,34 @@ while True:
         
     else:
         pass
+    
+    if "QR" in path:
+            window_name = "main"
+            cap = cv2.VideoCapture(0)
+            cap.set(3, 1280)
+            cap.set(4, 720)
+            cap.set(5, 15)
+            cv2.namedWindow(window_name)
+        
+            while True:
+                ret, flame = cap.read()
+                flame = cv2.cvtColor(flame, cv2.COLOR_BGR2GRAY)
+                cv2.imshow(window_name, flame)
+                tresh = 100
+                max_pixel = 255
+                ret, flame = cv2.threshold(flame, tresh, max_pixel, cv2.THRESH_BINARY)
+                qr_result = pyzbar.decode(flame)
+                if qr_result != []:
+                    print(qr_result[0][0])
+                    qr_result = qr_result[0][0].decode('utf-8', 'ignore')
+                    break
+
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+                    
+    cv2.destroyAllWindows()
+    path = qr_result
+    print(path)
 
 
     if "com" in path or "jp" in path and "jpg" not in path and "jpeg" not in path:
@@ -130,36 +164,6 @@ while True:
             
         path = data[0][0].decode('utf-8', 'ignore')
         
-        if "QR" in path:
-            window_name = "main"
-            cap = cv2.VideoCapture(0)
-            cap.set(3, 1280)
-            cap.set(4, 720)
-            cap.set(5, 15)
-            cv2.namedWindow(window_name)
-        
-        while True:
-            ret, flame = cap.read()
-            flame = cv2.cvtColor(flame, cv2.COLOR_BGR2GRAY)
-            cv2.imshow(window_name, flame)
-            tresh = 100
-            max_pixel = 255
-            ret, flame = cv2.threshold(flame, tresh, max_pixel, cv2.THRESH_BINARY)
-            qr_result = pyzbar.decode(flame)
-            if qr_result != []:
-                print(qr_result[0][0])
-                qr_result = qr_result[0][0].decode('utf-8', 'ignore')
-                break
-
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-        cv2.destroyAllWindows()
-        path = qr_result
-        print(path)
-    
-    
-                    
-
     print(path)
 
     path = get_shortenURL(path)
