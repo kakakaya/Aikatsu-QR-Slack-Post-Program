@@ -10,14 +10,16 @@ import time
 import urllib
 import sys
 from urllib import request
-import access
+import key
 import cv2
 import pyzbar.pyzbar as pyzbar
 import PIL.Image
 
-SLACK_BOT_TOKEN = access.SLACK_BOT_TOKEN
+SLACK_BOT_TOKEN = key.SLACK_BOT_TOKEN
 
-aat = access.access_token
+aat = key.access_token
+
+slackch = key.slackch
 
 client = slack.WebClient(token=SLACK_BOT_TOKEN)
 
@@ -49,7 +51,7 @@ def get_shortenURL(longUrl):
 
 def post():
     response = client.chat_postMessage(
-    channel=Slackch,text=(card)
+    channel=slackch,text=card
     )
     
 
@@ -78,33 +80,35 @@ while True:
         
     else:
         pass
-
+    
     if "QR" in path:
-        window_name = "main"
-        cap = cv2.VideoCapture(0)
-        cap.set(3, 1280)
-        cap.set(4, 720)
-        cap.set(5, 15)
-        cv2.namedWindow(window_name)
+            window_name = "main"
+            cap = cv2.VideoCapture(0)
+            cap.set(3, 1280)
+            cap.set(4, 720)
+            cap.set(5, 15)
+            cv2.namedWindow(window_name)
         
-        while True:
-            ret, flame = cap.read()
-            flame = cv2.cvtColor(flame, cv2.COLOR_BGR2GRAY)
-            cv2.imshow(window_name, flame)
-            tresh = 100
-            max_pixel = 255
-            ret, flame = cv2.threshold(flame, tresh, max_pixel, cv2.THRESH_BINARY)
-            qr_result = pyzbar.decode(flame)
-            if qr_result != []:
-                print(qr_result[0][0])
-                qr_result = qr_result[0][0].decode('utf-8', 'ignore')
-                break
+            while True:
+                ret, flame = cap.read()
+                flame = cv2.cvtColor(flame, cv2.COLOR_BGR2GRAY)
+                cv2.imshow(window_name, flame)
+                tresh = 100
+                max_pixel = 255
+                ret, flame = cv2.threshold(flame, tresh, max_pixel, cv2.THRESH_BINARY)
+                qr_result = pyzbar.decode(flame)
+                if qr_result != []:
+                    print(qr_result[0][0])
+                    qr_result = qr_result[0][0].decode('utf-8', 'ignore')
+                    break
 
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-        cv2.destroyAllWindows()
-        path = qr_result
-        print(path)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+                    
+    cv2.destroyAllWindows()
+    path = qr_result
+    print(path)
+
 
     if "com" in path or "jp" in path and "jpg" not in path and "jpeg" not in path:
         print("画像ダウンロード開始...")
@@ -139,24 +143,23 @@ while True:
         path = "python.jpg"
         path = data[0][0].decode('utf-8', 'ignore')
         print("画像ダウンロード終了...")
-    
-    try:
-        data = decode(Image.open(path))
-    except FileNotFoundError:
-        print("本当にそこにありますか？？？")
-        print("再実行しますか？[Y/N]")
-        retry = input()
-        if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
-                    continue
-        elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
-                    break
-        else:
-            print("リトライしてください")
-            continue
+        
+        try:
+            data = decode(Image.open(path))
+        except FileNotFoundError:
+            print("本当にそこにありますか？？？")
+            print("再実行しますか？[Y/N]")
+            retry = input()
+            if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
+                        continue
+            elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
+                        break
+            else:
+                print("リトライしてください")
+                continue
             
         path = data[0][0].decode('utf-8', 'ignore')
-                    
-
+        
     print(path)
 
     path = get_shortenURL(path)
