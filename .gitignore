@@ -74,3 +74,4 @@ celerybeat-schedule
 .dmypy.json
 dmypy.json
 .pyre/
+/
