@@ -109,12 +109,12 @@ while True:
     cv2.destroyAllWindows()
     path = qr_result
     print(path)
-    
     if "http://aikatsu.com/qr/id=" in qr_result:
             print("旧カツのカードは対応していません。別のカードを読み込んでください。")
             print("該当の画像を入れてください")
             print("終了する場合はexitまたはCtrl+Dでお願いします")
             continue
+
 
     if "com" in path or "jp" in path and "jpg" not in path and "jpeg" not in path:
         print("画像ダウンロード開始...")
@@ -179,7 +179,9 @@ while True:
         print("該当の画像を入れてください")
         print("終了する場合はexitまたはCtrl+Dでお願いします")
         continue
-        
+
+    card = path['data']['url']
+  
     post()
     
     path= "none"
