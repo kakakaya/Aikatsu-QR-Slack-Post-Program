@@ -24,14 +24,12 @@ slackch = key.slackch
 client = slack.WebClient(token=SLACK_BOT_TOKEN)
 
 def SearchImage():
-  # WebCameraで撮った最新の画像を探す
   homeDir = expanduser('~')
   imageDir = homeDir + '\\Pictures\\Camera Roll'
   imageList = os.listdir(imageDir)
   return (imageDir + '\\' + imageList[-1])
 
 def QRreade(image):
-  # image変数の指し示す画像からQRコードの検出をする
   readResult = decode(Image.open(image))
   if (readResult != []):
     return readResult
@@ -54,13 +52,16 @@ def post():
     channel=slackch,text=card
     )
     
-
-
+print("アイカツQRコードSlack送信システム")
+print('該当の画像があるパスまたはURLを入れてください')
+print("QRを読み取る場合はQRと入れてください")
+print("カメラが起動します")
+print("終了する場合はexitまたはCtrl+Dでお願いします")
 while True:
-    print("アイカツQRコードSlack送信システム")
-    print('該当の画像を入れてください')
-
     path = input()
+    
+    if "exit" in path:
+        exit()
 
     if ".com" not in path:
         if ".jp" not in path:
@@ -108,7 +109,12 @@ while True:
     cv2.destroyAllWindows()
     path = qr_result
     print(path)
-
+    
+    if "http://aikatsu.com/qr/id=" in qr_result:
+            print("旧カツのカードは対応していません。別のカードを読み込んでください。")
+            print("該当の画像を入れてください")
+            print("終了する場合はexitまたはCtrl+Dでお願いします")
+            continue
 
     if "com" in path or "jp" in path and "jpg" not in path and "jpeg" not in path:
         print("画像ダウンロード開始...")
@@ -141,7 +147,7 @@ while True:
                 print("リトライしてください")
                 contunue
         path = "python.jpg"
-        path = data[0][0].decode('utf-8', 'ignore')
+        path = path[0][0].decode('utf-8', 'ignore')
         print("画像ダウンロード終了...")
         
         try:
@@ -166,8 +172,17 @@ while True:
 
     print(path)
     
-    card = path['data']['url']
-    
+    try:
+        card = path['data']['url']
+    except TypeError:
+        print("旧カツカードまたは読み込めない形式のカードです、別のカードを読み込んでください。")
+        print("該当の画像を入れてください")
+        print("終了する場合はexitまたはCtrl+Dでお願いします")
+        continue
+        
     post()
     
     path= "none"
+    
+    print("該当の画像を入れてください")
+    print("終了する場合はexitまたはCtrl+Dでお願いします")
