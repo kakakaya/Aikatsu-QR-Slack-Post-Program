@@ -54,10 +54,12 @@ def post():
     
 print("アイカツQRコードSlack送信システム")
 print('該当の画像があるパスまたはURLを入れてください')
-print("QRを読み取る場合はQRと入れてください")
+print("QRを読み取る場合はQR-Readと入れてください")
 print("カメラが起動します")
 print("終了する場合はexitまたはCtrl+Dでお願いします")
+
 while True:
+    path = "none"
     path = input()
     
     if "exit" in path:
@@ -82,7 +84,7 @@ while True:
     else:
         pass
     
-    if "QR" in path:
+    if "QR-Read" in path:
             window_name = "main"
             cap = cv2.VideoCapture(0)
             cap.set(3, 1280)
@@ -92,7 +94,6 @@ while True:
         
             while True:
                 ret, flame = cap.read()
-                flame = cv2.cvtColor(flame, cv2.COLOR_BGR2GRAY)
                 cv2.imshow(window_name, flame)
                 tresh = 100
                 max_pixel = 255
@@ -100,21 +101,31 @@ while True:
                 qr_result = pyzbar.decode(flame)
                 if qr_result != []:
                     print(qr_result[0][0])
+                    if "http://aikatsu.com/qr/id=" in qr_result:
+                        print("旧カツのカードは対応していません。別のカードを読み込んでください。")
+                        print("該当の画像を入れてください")
+                        print("終了する場合はexitまたはCtrl+Dでお願いします")
+                        path = "none"
+                        continue
                     qr_result = qr_result[0][0].decode('utf-8', 'ignore')
                     break
-
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
                     
+    if ".jpeg" in path:
+        print("jpeg")
+        image = path
+        print(image)
+    elif ".jpg" in path:
+        print("jpg")
+        image = path
+        print(image)
+    elif ".png" in path:
+        print("png")
+        image = path
+        print(image)
+        
     cv2.destroyAllWindows()
-    path = qr_result
-    print(path)
-    if "http://aikatsu.com/qr/id=" in qr_result:
-            print("旧カツのカードは対応していません。別のカードを読み込んでください。")
-            print("該当の画像を入れてください")
-            print("終了する場合はexitまたはCtrl+Dでお願いします")
-            continue
-
 
     if "com" in path or "jp" in path and "jpg" not in path and "jpeg" not in path:
         print("画像ダウンロード開始...")
@@ -146,26 +157,25 @@ while True:
             else:
                 print("リトライしてください")
                 contunue
-        path = "python.jpg"
-        path = path[0][0].decode('utf-8', 'ignore')
+        image = "python.jpg"
         print("画像ダウンロード終了...")
         
-        try:
-            data = decode(Image.open(path))
-        except FileNotFoundError:
-            print("本当にそこにありますか？？？")
-            print("再実行しますか？[Y/N]")
-            retry = input()
-            if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
-                        continue
-            elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
-                        break
-            else:
-                print("リトライしてください")
-                continue
+    try:
+        read = decode(Image.open(image))
+    except FileNotFoundError:
+        print("本当にそこにありますか？？？")
+        print("再実行しますか？[Y/N]")
+        retry = input()
+        if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
+            continue
+        elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
+            break
+        else:
+            print("リトライしてください")
+            continue
             
-        path = data[0][0].decode('utf-8', 'ignore')
-        
+    path = read[0][0].decode('utf-8', 'ignore')
+    
     print(path)
 
     path = get_shortenURL(path)
@@ -178,13 +188,14 @@ while True:
         print("旧カツカードまたは読み込めない形式のカードです、別のカードを読み込んでください。")
         print("該当の画像を入れてください")
         print("終了する場合はexitまたはCtrl+Dでお願いします")
+        path = "none"
         continue
-
-    card = path['data']['url']
-  
+        
     post()
     
-    path= "none"
+    card = "none"
+    
+    path = "none"
     
     print("該当の画像を入れてください")
     print("終了する場合はexitまたはCtrl+Dでお願いします")
