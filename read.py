@@ -195,6 +195,8 @@ while True:
     
     card = "none"
     
+    image = "none"
+    
     path = "none"
     
     print("該当の画像を入れてください")
