@@ -61,7 +61,7 @@ print("終了する場合はexitまたはCtrl+Dでお願いします")
 while True:
     path = "none"
     path = input()
-    
+
     if "exit" in path:
         exit()
 
@@ -111,19 +111,6 @@ while True:
                     break
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
-                    
-    if ".jpeg" in path:
-        print("jpeg")
-        image = path
-        print(image)
-    elif ".jpg" in path:
-        print("jpg")
-        image = path
-        print(image)
-    elif ".png" in path:
-        print("png")
-        image = path
-        print(image)
         
     cv2.destroyAllWindows()
 
@@ -159,9 +146,11 @@ while True:
                 contunue
         image = "python.jpg"
         print("画像ダウンロード終了...")
-        
+      
+    path = path.strip()
+    
     try:
-        read = decode(Image.open(image))
+        read = decode(Image.open(path))
     except FileNotFoundError:
         print("本当にそこにありますか？？？")
         print("再実行しますか？[Y/N]")
