@@ -59,7 +59,6 @@ print("カメラが起動します")
 print("終了する場合はexitまたはCtrl+Dでお願いします")
 
 while True:
-    path = "none"
     path = input()
 
     if "exit" in path:
