@@ -60,6 +60,8 @@ print("終了する場合はexitまたはCtrl+Dでお願いします")
 
 while True:
     path = input()
+    
+    path = path.strip()
 
     if "exit" in path:
         exit()
@@ -83,7 +85,7 @@ while True:
     else:
         pass
     
-    if "QR-Read" in path:
+    if "QR" in path:
             window_name = "main"
             cap = cv2.VideoCapture(0)
             cap.set(3, 1280)
@@ -106,7 +108,8 @@ while True:
                         print("終了する場合はexitまたはCtrl+Dでお願いします")
                         path = "none"
                         continue
-                    qr_result = qr_result[0][0].decode('utf-8', 'ignore')
+                    path = qr_result[0][0].decode('utf-8', 'ignore')
+                    print(path)
                     break
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
@@ -143,26 +146,24 @@ while True:
             else:
                 print("リトライしてください")
                 contunue
-        image = "python.jpg"
+        path = "python.jpg"
         print("画像ダウンロード終了...")
-      
-    path = path.strip()
     
-    try:
-        read = decode(Image.open(path))
-    except FileNotFoundError:
-        print("本当にそこにありますか？？？")
-        print("再実行しますか？[Y/N]")
-        retry = input()
-        if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
-            continue
-        elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
-            break
-        else:
-            print("リトライしてください")
-            continue
-            
-    path = read[0][0].decode('utf-8', 'ignore')
+    if "http://dcd.sc/" not in path:
+        try:
+            read = decode(Image.open(path))
+        except FileNotFoundError:
+            print("本当にそこにありますか？？？")
+            print("再実行しますか？[Y/N]")
+            retry = input()
+            if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
+                continue
+            elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
+                break
+            else:
+                print("リトライしてください")
+                continue
+        path = read[0][0].decode('utf-8', 'ignore')
     
     print(path)
 
