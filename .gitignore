@@ -80,3 +80,5 @@ celerybeat-schedule
 dmypy.json
 .pyre/
 /
+
+*.xxx
