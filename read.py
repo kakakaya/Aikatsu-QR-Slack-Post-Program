@@ -12,6 +12,8 @@ import key
 import cv2
 import pyzbar.pyzbar as pyzbar
 import PIL.Image
+import pathlib 
+import path
 
 SLACK_BOT_TOKEN = key.SLACK_BOT_TOKEN
 
@@ -69,28 +71,32 @@ while True:
     if "exit" in path:
         exit()
 
-    if ".com" not in path:
-        if ".jp" not in path:
-            if ".jpg" not in path:
-                if ".jpeg" not in path:
-                    if "QR" not in path:
-                            print("これ画像じゃないですよね...")
-                            print("再実行しますか？[Y/N]")
-                            try:
-                                retry = input()
-                            except EOFError:
-                                print("不正な文字列を入れてませんか？？？")
-                                sys.exit()
-                            if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
-                                continue
-                            elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
-                                break
-                            else:
-                                print("リトライしてください")
-                                continue
         
-    else:
+    domein = pathlib.Path(path)
+    domein = domein.suffix.lower()
+    if_suffix = ['.jpg', '.png', '.bmp', '.tif', '.jpeg']
+    if domein in if_suffix:
         pass
+    elif "QR" in path:
+        pass
+    else:
+        print("これ画像じゃないですよね...")
+        print("再実行しますか？[Y/N]")
+        try:
+            retry = input()
+        except UnicodeDecodeError:
+            print("ファジングしようとするなあ！！！！！！！！！！！！！！！！")
+            sys.exit()
+        except EOFError:
+            print("不正な文字列を入れてませんか？？？")
+            sys.exit()
+        if retry.lower() in y:   
+            continue
+        elif retry.lower() in n:
+            break
+        else:
+            print("リトライしてください")
+            continue
     
     if "QR" in path:
             window_name = "main"
@@ -108,7 +114,6 @@ while True:
                 ret, flame = cv2.threshold(flame, tresh, max_pixel, cv2.THRESH_BINARY)
                 qr_result = pyzbar.decode(flame)
                 if qr_result != []:
-                    print(qr_result[0][0])
                     path = qr_result[0][0].decode('utf-8', 'ignore')
                     print(path)
                     if "http://dcd.sc/" not in path and "http://aikatsu.com/qr/id=" in path and "AK" in path:
@@ -145,9 +150,12 @@ while True:
             except EOFError:
                 print("不正な文字列を入れてませんか？？？")
                 sys.exit()
-            if 'Y' in retry or 'Yes' in retry or 'yes' in retry or 'y' in retry or 'YES' in retry:
+            except UnicodeDecodeError:
+                print("ファジングしようとするなあ！！！！！！！！！！！！！！！！")
+                sys.exit()
+            if retry.lower() in y:   
                 continue
-            elif 'N' in retry or 'No' in retry or 'no' in retry or 'n' in retry or 'NO' in retry:
+            elif retry.lower() in n:
                 break
             else:
                 print("リトライしてください")
@@ -158,8 +166,6 @@ while True:
             sys.exit()
             
         path = read[0][0].decode('utf-8', 'ignore')
-    
-    print(path)
 
     path = get_shortenURL(path)
 
